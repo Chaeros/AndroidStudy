@@ -1,0 +1,44 @@
+# -----------------------------------
+# Android Studio & Gradle Ignore List
+# -----------------------------------
+
+# Gradle build files
+.gradle/
+build/
+**/build/
+
+# Local configuration
+local.properties
+
+# IDE - Android Studio
+.idea/
+*.iml
+!.idea/codeStyles/
+
+# OS/Editor generated files
+.DS_Store
+*.swp
+*.tmp
+*.bak
+
+# Native build
+.externalNativeBuild/
+.cxx/
+
+# Logs
+*.log
+
+# Compiled APKs/Keys
+*.apk
+*.ap_
+*.keystore
+*.jks
+
+# Gradle Wrapper
+gradle/wrapper/gradle-wrapper.jar
+
+# Captures
+captures/
+
+# Windows batch files (optional, include if you don't use Windows)
+*.bat
