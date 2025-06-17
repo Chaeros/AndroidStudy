@@ -1,0 +1,35 @@
+# ---------------------------
+# Handle line endings
+# ---------------------------
+
+# Set default behavior to LF (Unix-style)
+* text=auto eol=lf
+
+# Keep Windows batch files with CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Keep shell scripts with LF
+*.sh text eol=lf
+
+# Prevent CRLF normalization for binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.keystore binary
+*.jks binary
+
+# Kotlin/Java/Gradle source files should use LF
+*.kt text eol=lf
+*.java text eol=lf
+*.xml text eol=lf
+*.gradle text eol=lf
+*.gradle.kts text eol=lf
+*.properties text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
