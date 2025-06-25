@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BusinessCard</string>
+    <string name="cell_phone_number">010-xxxx-xxxx</string>
+    <string name="email">chaeros@naver.com</string>
+    <string name="nickname">\@Chaeros</string>
+    <string name="name">Chanho Park</string>
+    <string name="my_description">Android Developer Extraordinaire</string>
+    <string name="contentdescription_business_card_logo_image">business card logo image</string>
+</resources>
