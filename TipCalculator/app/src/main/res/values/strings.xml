@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TipCalculator</string>
     <string name="tip_amount">Tip Amount: %s</string>
+    <string name="how_was_the_service">Tip Percentage</string>
+    <string name="round_up_tip">Round up tip?</string>
+    <string name="bill_amount">Bill Amount</string>
 </resources>
