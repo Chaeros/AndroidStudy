@@ -34,6 +34,7 @@ import com.chaeros.tipcalculator.ui.theme.TipCalculatorTheme
 import java.text.NumberFormat
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
@@ -87,6 +88,10 @@ fun TipCalculatorCard(){
         // 지불 금액 입력 TextField
         EditNumberField(
             label = R.string.bill_amount,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number, // 숫자만 입력 가능
+                imeAction = ImeAction.Next          // 다음 TextField로 이동
+            ),
             value = amountInput,
             onValueChange = {amountInput=it},
             modifier = Modifier
@@ -96,6 +101,10 @@ fun TipCalculatorCard(){
         // Tip Percentage 입력 TextField
         EditNumberField(
             label = R.string.how_was_the_service,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number, // 숫자만 입력 가능
+                imeAction = ImeAction.Done          // 사용자가 입력을 완료했음을 나타냄
+            ),
             value = tipInput,
             onValueChange = {tipInput=it},
             modifier = Modifier
@@ -118,6 +127,7 @@ private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
 @Composable
 fun EditNumberField(
     @StringRes label: Int,  // @StringRes : 매개변수가 반드시 문자열 리소스를 참조하여야 함
+    keyboardOptions: KeyboardOptions,
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -127,7 +137,7 @@ fun EditNumberField(
         onValueChange = onValueChange,      // 데이터 변화시 수행할 메서드
         singleLine = true,                  // 한 줄로만 보이도록, 길면 좌우 스크롤
         label = {Text(stringResource(label))},  // Text Field에 입력해야 할 내용 설명
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), // 숫자만 입력 가능
+        keyboardOptions = keyboardOptions,
         modifier = modifier
     )
 }
