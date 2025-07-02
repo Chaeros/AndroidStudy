@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -131,7 +132,10 @@ fun TipCalculatorCard(){
     }
 }
 
-private fun calculateTip(
+// internal 키워드로 인해 메서드가 공개되지만(모듈 단위로 접근 제한, 컴파일 단위),
+// @VisibleForTesting으로 인해 테스트 목적으로만 사용자에게 표시됨
+@VisibleForTesting
+internal fun calculateTip(
     amount: Double,
     tipPercent: Double = 15.0,
     roundUp: Boolean
