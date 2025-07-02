@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -34,6 +36,7 @@ import com.chaeros.tipcalculator.ui.theme.TipCalculatorTheme
 import java.text.NumberFormat
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import com.chaeros.tipcalculator.composable.RoundTheTipRow
@@ -78,7 +81,7 @@ fun TipCalculatorCard(){
     Column(
         modifier = Modifier
             .statusBarsPadding()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState()),     // 열을 세로로 스크롤 할 수 있음
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
@@ -90,6 +93,7 @@ fun TipCalculatorCard(){
         // 지불 금액 입력 TextField
         EditNumberField(
             label = R.string.bill_amount,
+            leadingIcon = R.drawable.money,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number, // 숫자만 입력 가능
                 imeAction = ImeAction.Next          // 다음 TextField로 이동
@@ -103,6 +107,7 @@ fun TipCalculatorCard(){
         // Tip Percentage 입력 TextField
         EditNumberField(
             label = R.string.how_was_the_service,
+            leadingIcon = R.drawable.percent,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number, // 숫자만 입력 가능
                 imeAction = ImeAction.Done          // 사용자가 입력을 완료했음을 나타냄
@@ -141,6 +146,7 @@ private fun calculateTip(
 @Composable
 fun EditNumberField(
     @StringRes label: Int,  // @StringRes : 매개변수가 반드시 문자열 리소스를 참조하여야 함
+    @DrawableRes leadingIcon: Int,  // @DrawableRes : 매개변수가 반드시
     keyboardOptions: KeyboardOptions,
     value: String,
     onValueChange: (String) -> Unit,
@@ -148,6 +154,7 @@ fun EditNumberField(
 ){
     TextField(
         value = value,                      // 초기 입력 값
+        leadingIcon = { Icon(painter = painterResource(id = leadingIcon),null) },   // 텍스트 입력란 선행 아이콘
         onValueChange = onValueChange,      // 데이터 변화시 수행할 메서드
         singleLine = true,                  // 한 줄로만 보이도록, 길면 좌우 스크롤
         label = {Text(stringResource(label))},  // Text Field에 입력해야 할 내용 설명
