@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyArtSpace</string>
+    <string name="previous_button">Previous</string>
+    <string name="next_button">Next</string>
+    <string name="the_starry_night">The starry night</string>
+    <string name="the_starry_night_artist">Gogh</string>
+    <string name="the_starry_night_date">1889.5</string>
+    <string name="the_starry_night_description">The starry night image</string>
+</resources>
