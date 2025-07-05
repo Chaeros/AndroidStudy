@@ -6,4 +6,12 @@
     <string name="the_starry_night_artist">Gogh</string>
     <string name="the_starry_night_date">1889.5</string>
     <string name="the_starry_night_description">The starry night image</string>
+    <string name="mona_lisa">Mona Lisa</string>
+    <string name="mona_lisa_artist">Leonardo da Vinci</string>
+    <string name="mona_lisa_date">1503-1506</string>
+    <string name="mona_lisa_description">Mona Lisa image</string>
+    <string name="cafe_terrace_at_night">Cafe Terrace at Night</string>
+    <string name="cafe_terrace_at_night_artist">Gogh</string>
+    <string name="cafe_terrace_at_night_date">1888</string>
+    <string name="cafe_terrace_at_night_description">Cafe Terrace at Night image</string>
 </resources>
