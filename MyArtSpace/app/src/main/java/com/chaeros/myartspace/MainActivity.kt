@@ -36,7 +36,20 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
+// 세로 모드 Preview
+@Preview(
+    name = "Portrait",
+    showBackground = true,
+    widthDp = 360,
+    heightDp = 640
+)
+// 가로 모드 Preview
+@Preview(
+    name = "Landscape",
+    showBackground = true,
+    widthDp = 640,
+    heightDp = 360
+)
 @Composable
 fun GreetingPreview() {
     MyArtSpaceTheme {

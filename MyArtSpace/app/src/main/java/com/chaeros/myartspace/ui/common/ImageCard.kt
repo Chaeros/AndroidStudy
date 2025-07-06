@@ -14,8 +14,7 @@ fun ImageCard(
     imageDescription: String
 ){
     Image(
-        modifier = modifier
-            .padding(bottom = 20.dp),
+        modifier = modifier,
         painter = painter,
         contentDescription = imageDescription
     )
