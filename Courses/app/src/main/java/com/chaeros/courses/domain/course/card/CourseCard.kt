@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -18,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.chaeros.courses.R
 import com.chaeros.courses.domain.course.data.DataSource
 import com.chaeros.courses.domain.course.model.Topic
@@ -43,15 +46,19 @@ fun CourseCard(
                 painter = painterResource(topic.imageResourceId),
                 contentDescription = stringResource(topic.stringResourceId),
                 modifier = Modifier
-                    .height(68.dp)
                     .width(68.dp)
+                    .height(68.dp)
             )
             Column(
                 modifier = Modifier
                     .background(Purple80)
+                    .fillMaxWidth()
+                    .height(68.dp)
             ) {
                 Text(
                     text = stringResource(topic.stringResourceId),
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
                 )
@@ -63,11 +70,14 @@ fun CourseCard(
                         contentDescription = stringResource(R.string.ic_grain),
                         modifier = Modifier
                             .padding(start = 16.dp)
+                            .height(20.dp)
+                            .width(20.dp)
                     )
                     Text(
                         text = topic.relatedCourseCount.toString(),
                         modifier = Modifier
-                            .padding(start = 8.dp)
+                            .padding(start = 8.dp),
+                        fontSize = 12.sp
                     )
                 }
             }
