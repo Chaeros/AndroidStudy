@@ -1,0 +1,25 @@
+package com.chaeros.woof.ui.composable
+
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import com.chaeros.woof.R
+
+@Composable
+fun DogIcon(
+    @DrawableRes dogIcon: Int,
+    modifier: Modifier = Modifier
+) {
+    Image(
+        modifier = modifier
+            .size(dimensionResource(R.dimen.image_size))
+            .padding(dimensionResource(R.dimen.padding_small)),
+        painter = painterResource(dogIcon),
+        contentDescription = null
+    )
+}
