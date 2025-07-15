@@ -108,6 +108,7 @@ fun WoofTheme(
     // Jetpack Compose에서 앱의 전반적인 테마(색상, 타이포그래피, 도형 등)를 적용하는 핵심 함수
     // MaterialTheme()에 shapes = Shapes를 넘겨줌으로써,
     // 앱 전체의 Card, Image 등에서 사용할 도형(모서리 둥글기 등)을 일괄적으로 지정
+    // font들을 Type.kt에서 정의한 Typography 변수로 설정
     MaterialTheme(
         colorScheme = colorScheme,
         shapes = Shapes,
