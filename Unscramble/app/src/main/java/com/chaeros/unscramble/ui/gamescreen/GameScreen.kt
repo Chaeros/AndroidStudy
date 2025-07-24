@@ -52,8 +52,10 @@ fun GameScreen(
         GameLayout(
             currentScrambledWord = gameUiState.currentScrambledWord,    // ViewModel에서 UI로 데이터 흐름(맞춰야할 문자열)
             userGuess = gameViewModel.userGuess,                        // ViewModel에서 UI로 데이터 흐름(사용자 입력 문자열)
+            wordCount = gameUiState.currentWordCount,
             onUserGuessChanged = { gameViewModel.updateUserGuess(it) },
-            onKeyboardDone = {},
+            onKeyboardDone = { gameViewModel.checkUserGuess() },
+            isGuessWrong = gameUiState.isGuessedWordWrong,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
@@ -68,8 +70,10 @@ fun GameScreen(
         ) {
 
             Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { }
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp),
+                onClick = { gameViewModel.checkUserGuess() }    // 람다 표현식 안에서 gameViewModel.checkUserGuess() 호출
             ) {
                 Text(
                     text = stringResource(R.string.submit),
@@ -78,7 +82,7 @@ fun GameScreen(
             }
 
             OutlinedButton(
-                onClick = { },
+                onClick = { gameViewModel.skip() },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
@@ -88,6 +92,6 @@ fun GameScreen(
             }
         }
 
-        GameStatus(score = 0, modifier = Modifier.padding(20.dp))
+        GameStatus(score = gameUiState.score, modifier = Modifier.padding(20.dp))
     }
 }

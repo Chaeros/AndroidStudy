@@ -30,7 +30,9 @@ import com.chaeros.unscramble.R
 @Composable
 fun GameLayout(
     currentScrambledWord: String,
+    isGuessWrong: Boolean,
     userGuess: String,
+    wordCount: Int,
     onUserGuessChanged: (String) -> Unit,   // UI에서 View Model로 데이터 전송
     onKeyboardDone: () -> Unit,             // UI에서 View Model로 데이터 전송
     modifier: Modifier = Modifier
@@ -54,7 +56,7 @@ fun GameLayout(
                     .background(colorScheme.surfaceTint)    // 텍스트 뒤의 배경색으로 지정(surfaceTint는 약간 강조된 색)
                     .padding(horizontal = 10.dp, vertical = 4.dp)   // 텍스트 주변에 여백
                     .align(alignment = Alignment.End),
-                text = stringResource(R.string.word_count, 0),
+                text = stringResource(R.string.word_count, wordCount),
                 style = typography.titleMedium, // 중간 크기의 제목 스타일
                 color = colorScheme.onPrimary   // 텍스트 색상이 onPrimary로, 배경색이 Primary인 경우, 잘 보이게 대비되는 색
             )
@@ -80,11 +82,20 @@ fun GameLayout(
                     disabledContainerColor = colorScheme.surface,   // 텍스트필드 비활성화 됐을 때
                 ),
                 onValueChange = onUserGuessChanged,    // 사용자가 입력 필드에 타이핑할 때 호출되는 람다
-                label = { Text(stringResource(R.string.enter_your_word)) },
-                isError = false,
+                // 텍스트 필드의 좌상단에서 텍스트를 출력해주는 label
+                label = {
+                    if (isGuessWrong) {
+                        Text(stringResource(R.string.wrong_guess))
+                    }
+                    else {
+                        Text(stringResource(R.string.enter_your_word))
+                    }
+                },
+                isError = isGuessWrong,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
                 ),
+                // 키보드 엔터 눌렀을 때
                 keyboardActions = KeyboardActions(
                     onDone = { onKeyboardDone() }
                 )
