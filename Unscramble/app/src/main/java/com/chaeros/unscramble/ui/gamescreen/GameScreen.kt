@@ -27,6 +27,7 @@ import com.chaeros.unscramble.ui.gamescreen.composable.GameLayout
 import com.chaeros.unscramble.ui.gamescreen.composable.GameStatus
 import com.chaeros.unscramble.viewmodel.GameViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.chaeros.unscramble.ui.gamescreen.composable.FinalScoreDialog
 
 @Composable
 fun GameScreen(
@@ -93,5 +94,13 @@ fun GameScreen(
         }
 
         GameStatus(score = gameUiState.score, modifier = Modifier.padding(20.dp))
+
+        // ViewModel 에서 관리하는 isGameOver 변수가 true면 종료 다이얼로그 호출
+        if (gameUiState.isGameOver){
+           FinalScoreDialog(
+               score = gameUiState.score,
+               onPlayAgain = { gameViewModel.resetGame() }
+           )
+        }
     }
 }

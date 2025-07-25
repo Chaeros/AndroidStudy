@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.flow.MutableStateFlow
 import androidx.lifecycle.ViewModel
+import com.chaeros.unscramble.data.MAX_NO_OF_WORDS
 import com.chaeros.unscramble.data.SCORE_INCREASE
 import com.chaeros.unscramble.data.allWords
 import kotlinx.coroutines.flow.StateFlow
@@ -64,20 +65,31 @@ class GameViewModel : ViewModel() {
         }
         else{
             _uiState.update { currentState ->
-                currentState.copy(isGuessedWordWrong = true)    //
+                currentState.copy(isGuessedWordWrong = true)
             }
         }
         updateUserGuess("")
     }
 
     private fun updateGameState(updatedScore: Int) {
-        _uiState.update { currentState ->
-            currentState.copy(
-                isGuessedWordWrong = false,
-                currentScrambledWord = pickRandomWordAndShuffle(),
-                score = updatedScore,
-                currentWordCount = currentState.currentWordCount.inc()  // .inc() : Kotlin에서 제공하는 숫자 1 증가 함수
-            )
+        if (usedWords.size == MAX_NO_OF_WORDS){
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isGuessedWordWrong = false,
+                    score = updatedScore,
+                    isGameOver = true
+                )
+            }
+        }
+        else {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isGuessedWordWrong = false,
+                    currentScrambledWord = pickRandomWordAndShuffle(),
+                    score = updatedScore,
+                    currentWordCount = currentState.currentWordCount.inc()  // .inc() : Kotlin에서 제공하는 숫자 1 증가 함수
+                )
+            }
         }
     }
 
