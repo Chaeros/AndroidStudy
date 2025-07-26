@@ -5,6 +5,7 @@ import com.chaeros.unscramble.data.allWords
 import com.chaeros.unscramble.viewmodel.GameViewModel
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.junit.Test
 
 // 각 테스트 마다 private val viewModel = GameViewModel() 가 새로 생성됨
@@ -25,6 +26,18 @@ class GameViewModelTest {
         currentGameUiState = viewModel.uiState.value
         assertFalse(currentGameUiState.isGuessedWordWrong)
         assertEquals(SCORE_AFTER_FIRST_CORRECT_ANSWER, currentGameUiState.score)
+    }
+
+    @Test
+    fun gameViewModel_IncorrectGuess_ErrorFlagSet() {
+        val incorrectWord = "wrong"
+
+        viewModel.updateUserGuess(incorrectWord)
+        viewModel.checkUserGuess()
+
+        var currentGameUiState = viewModel.uiState.value
+        assertTrue(currentGameUiState.isGuessedWordWrong)
+        assertEquals(0,currentGameUiState.score)
     }
 
     fun getUnscrambledWord(scrambledWord: String): String {
