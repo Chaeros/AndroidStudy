@@ -57,4 +57,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")  // ViewModel 사용을 위한 dependency 추가
+    testImplementation("junit:junit:4.13.2")                                // junit4 사용을 위한 dependency 추가
+    testImplementation(kotlin("test"))
 }

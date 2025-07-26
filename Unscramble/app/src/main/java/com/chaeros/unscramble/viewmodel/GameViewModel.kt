@@ -58,7 +58,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun checkUserGuess() {
-        Log.d("GameViewModel", "userGuess: $userGuess, currentWord: $currentWord")
+        //Log.d("GameViewModel", "userGuess: $userGuess, currentWord: $currentWord")    // Log있으면 테스트에 실패함
         if (userGuess.equals(currentWord, ignoreCase = true)){
             val updatedScore = _uiState.value.score.plus(SCORE_INCREASE)
             updateGameState(updatedScore)
