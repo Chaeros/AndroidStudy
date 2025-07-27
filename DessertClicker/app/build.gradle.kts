@@ -56,4 +56,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")  // ViewModel 사용을 위한 dependency 추가
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")  // compose 환경에서 viewModel 사용 위해서 필요
 }
