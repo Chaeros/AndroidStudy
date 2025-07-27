@@ -1,5 +1,6 @@
 package com.chaeros.unscramble.ui.test
 
+import com.chaeros.unscramble.data.MAX_NO_OF_WORDS
 import com.chaeros.unscramble.data.SCORE_INCREASE
 import com.chaeros.unscramble.data.allWords
 import com.chaeros.unscramble.viewmodel.GameViewModel
@@ -9,6 +10,7 @@ import junit.framework.TestCase.assertTrue
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
+// 좋은 단위 테스트 4가지 특성 : 집중, 이해 가능, 확정성, 독립형
 // 각 테스트 마다 private val viewModel = GameViewModel() 가 새로 생성됨
 // 즉, 테스트 함수(@Test) 하나마다 테스트 클래스의 새 인스턴스를 생성하고, 그 안의 필드들도 새로 초기화함.
 // 따라서 테스트 간 상태를 공유하지 않고 격리됨
@@ -51,6 +53,25 @@ class GameViewModelTest {
         assertEquals(currentGameUiState.score,0)
         assertFalse(currentGameUiState.isGuessedWordWrong)
         assertFalse(currentGameUiState.isGameOver)
+    }
+
+    // 게임이 끝날 때까지 모든 문제를 맞췄을 때
+    // GameViewModel의 내부 상태가 정상적으로 업데이트되는지 확인
+    @Test
+    fun gameViewModel_AllWordsGuessed_UiStateUpdatedCorrectly() {
+        var expectedScore = 0
+        var currentGameUiState = viewModel.uiState.value
+        var correctPlayerWord = getUnscrambledWord(currentGameUiState.currentScrambledWord)
+        repeat(MAX_NO_OF_WORDS) {
+            expectedScore += SCORE_INCREASE
+            viewModel.updateUserGuess(correctPlayerWord)
+            viewModel.checkUserGuess()
+            currentGameUiState = viewModel.uiState.value
+            correctPlayerWord = getUnscrambledWord(currentGameUiState.currentScrambledWord)
+            assertEquals(expectedScore, currentGameUiState.score)
+        }
+        assertEquals(MAX_NO_OF_WORDS, currentGameUiState.currentWordCount)
+        assertTrue(currentGameUiState.isGameOver)
     }
 
     fun getUnscrambledWord(scrambledWord: String): String {
