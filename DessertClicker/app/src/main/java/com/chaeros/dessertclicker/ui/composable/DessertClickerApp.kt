@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -25,26 +26,30 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.core.content.ContextCompat
 import com.chaeros.dessertclicker.R
 import com.chaeros.dessertclicker.model.Dessert
+import com.chaeros.dessertclicker.viewmodel.DessertClickerViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun DessertClickerApp(
-    desserts: List<Dessert>
+    desserts: List<Dessert>,
+    dessertClickerViewModel : DessertClickerViewModel = viewModel()
 ) {
     // rememberSaveable도 remember와 같이 상태 값을 저장하는 역할을 수행한다.
     // 단, 다른 점이 있다면 Activity가 destroy 되면 remember는 상태를 Compose 내부 메모리에 임시 저장했기에 상태를 잃는 반면,
     // rememberSaveable은 destroy 되었을 때도 Android 시스템 Bundle에 상태를 저장하기 때문에 상태를 잃지 않는다.
     // 단, 안드로이드 앱 자체를 껏다 켰을 경우에는 remeberSaveable 상태도 값을 잃기에 이 때는 viewModel을 사용해야 한다.
-    var revenue by rememberSaveable { mutableStateOf(0) }
-    var dessertsSold by rememberSaveable { mutableStateOf(0) }
-
-    val currentDessertIndex by rememberSaveable { mutableStateOf(0) }
-
-    var currentDessertPrice by rememberSaveable {
-        mutableStateOf(desserts[currentDessertIndex].price)
-    }
-    var currentDessertImageId by rememberSaveable {
-        mutableStateOf(desserts[currentDessertIndex].imageId)
-    }
+//    var revenue by rememberSaveable { mutableStateOf(0) }
+//    var dessertsSold by rememberSaveable { mutableStateOf(0) }
+//
+//    val currentDessertIndex by rememberSaveable { mutableStateOf(0) }
+//
+//    var currentDessertPrice by rememberSaveable {
+//        mutableStateOf(desserts[currentDessertIndex].price)
+//    }
+//    var currentDessertImageId by rememberSaveable {
+//        mutableStateOf(desserts[currentDessertIndex].imageId)
+//    }
+    val screenUiState by dessertClickerViewModel.uiState.collectAsState()
 
     Scaffold(
         // topBar : Scaffold Composable의 상단 영역 정의
@@ -57,8 +62,8 @@ fun DessertClickerApp(
                 onShareButtonClicked = {
                     shareSoldDessertsInformation(
                         intentContext = intentContext,
-                        dessertsSold = dessertsSold,
-                        revenue = revenue
+                        dessertsSold = screenUiState.dessertsSold,
+                        revenue = screenUiState.revenue
                     )
                 },
                 modifier = Modifier
@@ -76,18 +81,24 @@ fun DessertClickerApp(
         }
     ) { contentPadding ->
         DessertClickerScreen(
-            revenue = revenue,
-            dessertsSold = dessertsSold,
-            dessertImageId = currentDessertImageId,
+            revenue = screenUiState.revenue,
+            dessertsSold = screenUiState.dessertsSold,
+            dessertImageId = screenUiState.currentDessertImageId,
             onDessertClicked = {
                 // Update the revenue
-                revenue += currentDessertPrice
-                dessertsSold++
+                dessertClickerViewModel.updateRevenue(screenUiState.currentDessertPrice)
+                dessertClickerViewModel.increaseDessertSoldCount()
+//                screenUiState.revenue += screenUiState.currentDessertPrice
+//                screenUiState.dessertsSold++
+                // 주석 처리한 기존 방식에서 screenUiState는 StateFlow의 현재 값이고,
+                // 이는 Immutable(불변) 으로 UI 변경이 발생하지 않는다.
+                // 따라서 recomposition을 발생시키기 위해서는 viewModel의 함수를 통해 상태를 업데이트 해야함
 
                 // Show the next dessert
-                val dessertToShow = determineDessertToShow(desserts, dessertsSold)
-                currentDessertImageId = dessertToShow.imageId
-                currentDessertPrice = dessertToShow.price
+                val dessertToShow = determineDessertToShow(desserts, screenUiState.dessertsSold)
+                dessertClickerViewModel.updateCurrentDessert(dessertToShow)
+//                screenUiState.currentDessertImageId = dessertToShow.imageId
+//                screenUiState.currentDessertPrice = dessertToShow.price
             },
             modifier = Modifier.padding(contentPadding)
         )
