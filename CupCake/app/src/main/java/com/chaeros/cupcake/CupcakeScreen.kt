@@ -2,6 +2,7 @@ package com.chaeros.cupcake
 
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -28,28 +29,30 @@ import com.chaeros.cupcake.ui.OrderViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.chaeros.cupcake.data.DataSource
 import com.chaeros.cupcake.ui.OrderSummaryScreen
 import com.chaeros.cupcake.ui.SelectOptionScreen
 import com.chaeros.cupcake.ui.StartOrderScreen
 
-enum class CupcakeScreen() {
-    Start,
-    Flavor,
-    Pickup,
-    Summary
+enum class CupcakeScreen(@StringRes val title: Int) {
+    Start(title=R.string.app_name),
+    Flavor(title=R.string.choose_flavor),
+    Pickup(title=R.string.choose_pickup_date),
+    Summary(title=R.string.order_summary)
 }
 
 // TopAppBar와 TopAppBarDefaults.mediumTopAppBarColors()는 Material3의 실험적(Experimental) API로 아래 명시적 OptIn 설정이 필요
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CupcakeAppBar(
+    currentScreen: CupcakeScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        title = { Text(stringResource(id = R.string.app_name)) },
+        title = { Text(stringResource(currentScreen.title)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
@@ -73,11 +76,20 @@ fun CupcakeApp(
     viewModel: OrderViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
+    // 현재 네비게이션 백 스택의 맨 위 항목(즉, 현재 화면)에 대한 NavBackStackEntry를 상태로 관찰
+    //화면(route)이 바뀔 때마다 자동으로 업데이트
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    // 현재 표시되고 있는 화면의 route 이름 호출
+    // 문자열로 받은 "Flavor" 같은 값을 열거형(Enum) 값으로 변환 (CupcakeScreen.Flavor.name가 곧 enum에서 Flavor 였으므로)
+    val currentScreen = CupcakeScreen.valueOf(
+        backStackEntry?.destination?.route ?: CupcakeScreen.Start.name
+    )
     Scaffold(
         topBar = {
             CupcakeAppBar(
-                canNavigateBack = false,
-                navigateUp = { /* TODO: implement back navigation */ }
+                currentScreen = currentScreen,
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateUp = { navController.navigateUp() } // navigateUp() : 현재 화면을 종료하고, 백 스택에 있는 이전 화면으로 이동
             )
         }
     ) { innerPadding ->
