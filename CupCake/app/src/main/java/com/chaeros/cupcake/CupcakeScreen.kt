@@ -1,5 +1,7 @@
 package com.chaeros.cupcake
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -130,9 +132,15 @@ fun CupcakeApp(
             }
 
             composable(route = CupcakeScreen.Summary.name) {
+                // Jetpack Compose에서는 전통적인 Android의 Context 객체에 직접 접근하지 않기 때문에,
+                // Compose 컴포저블 내에서 현재의 Context를 가져오려면 LocalContext.current 를 사용
+                // Android에서 Intent, Toast, Resources, startActivity() 등 많은 기능은 Context를 필요
+                val context = LocalContext.current
                 OrderSummaryScreen(
                     orderUiState = uiState,
-                    onSendButtonClicked = {subject:String, summary:String->},
+                    onSendButtonClicked = {subject:String, summary:String->
+                        shareOrder(context, subject = subject, summary = summary)
+                    },
                     onCancelButtonClicked = {
                         cancelOrderAndNavigateToStart(viewModel, navController)
                     },
@@ -149,4 +157,18 @@ private fun cancelOrderAndNavigateToStart(
 ) {
     viewModel.resetOrder()
     navController.popBackStack(CupcakeScreen.Start.name, inclusive = false)
+}
+
+// 주문 요약 내용을 다른 앱으로 공유할 수 있도록 하는 기능 수행
+private fun shareOrder(context: Context, subject: String, summary: String) {
+     val intent = Intent(Intent.ACTION_SEND).apply {
+         type = "text/plain"                        // 인텐트와 함께 전송되는 추가 데이터 유형 지정
+         putExtra(Intent.EXTRA_SUBJECT, subject)    // EXTRA_SUBJECT의 제목 전달
+     }
+    context.startActivity(
+        Intent.createChooser(
+            intent,
+            context.getString(R.string.new_cupcake_order)
+        )
+    )
 }
