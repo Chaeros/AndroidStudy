@@ -60,4 +60,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")  // ViewModel 사용을 위한 dependency 추가
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")  // compose 환경에서 viewModel 사용 위해서 필요
     implementation("androidx.navigation:navigation-compose:2.7.4")
+
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.05.01"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation("androidx.navigation:navigation-testing:2.6.0")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
 }
