@@ -4,24 +4,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.chaeros.mars.network.MarsApi
+import kotlinx.coroutines.launch
 
 class MarsViewModel : ViewModel() {
-    /** The mutable State that stores the status of the most recent request */
     var marsUiState: String by mutableStateOf("")
         private set
 
-    /**
-     * Call getMarsPhotos() on init so we can display status immediately.
-     */
     init {
         getMarsPhotos()
     }
 
-    /**
-     * Gets Mars photos information from the Mars API Retrofit service and updates the
-     * [MarsPhoto] [List] [MutableList].
-     */
-    fun getMarsPhotos() {
-        marsUiState = "Set the Mars API status response here!"
+    // 네트워크 같은 I/O는 반드시 비동기로 작성하여 메인 스레드 차단 금지
+    private fun getMarsPhotos() {
+        // launch 메서드를 통해 코루틴 실행
+        viewModelScope.launch {
+            val listResult = MarsApi.retrofitService.getPhotos()
+
+            marsUiState = listResult  // Compose 상태 갱신, 화면의 Text 등이 자동 업데이트
+        }
     }
 }
