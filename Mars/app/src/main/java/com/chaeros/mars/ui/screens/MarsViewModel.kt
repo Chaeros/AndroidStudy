@@ -7,9 +7,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chaeros.mars.network.MarsApi
 import kotlinx.coroutines.launch
+import java.io.IOException
+
+// sealed 키워드를 통해 MarsUiState interface를 내부에서만 implements 또는 extends 할 수 잇음
+sealed interface MarsUiState {
+    data class Success(val photos: String) : MarsUiState
+    object Error : MarsUiState
+    object Loading : MarsUiState
+}
 
 class MarsViewModel : ViewModel() {
-    var marsUiState: String by mutableStateOf("")
+    var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
         private set
 
     init {
@@ -20,9 +28,12 @@ class MarsViewModel : ViewModel() {
     private fun getMarsPhotos() {
         // launch 메서드를 통해 코루틴 실행
         viewModelScope.launch {
-            val listResult = MarsApi.retrofitService.getPhotos()
-
-            marsUiState = listResult  // Compose 상태 갱신, 화면의 Text 등이 자동 업데이트
+            try {
+                val listResult = MarsApi.retrofitService.getPhotos()
+                marsUiState = MarsUiState.Success(listResult)  // Compose 상태 갱신, 화면의 Text 등이 자동 업데이트
+            } catch (e:IOException) {
+                marsUiState = MarsUiState.Error
+            }
         }
     }
 }
