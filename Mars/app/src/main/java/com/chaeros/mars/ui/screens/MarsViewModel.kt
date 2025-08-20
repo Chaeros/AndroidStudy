@@ -30,7 +30,9 @@ class MarsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val listResult = MarsApi.retrofitService.getPhotos()
-                marsUiState = MarsUiState.Success(listResult)  // Compose 상태 갱신, 화면의 Text 등이 자동 업데이트
+                marsUiState = MarsUiState.Success(
+                    "Success: ${listResult.size} Mars Photos retrieved"
+                )  // Compose 상태 갱신, 화면의 Text 등이 자동 업데이트
             } catch (e:IOException) {
                 marsUiState = MarsUiState.Error
             }
