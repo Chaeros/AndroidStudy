@@ -46,7 +46,8 @@ fun MarsPhotosApp() {
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
-            val marsViewModel: MarsViewModel = viewModel()
+            // ViewModel 생성을 위한 인수로, companion 객체에서 MarsViewModel.Factory에 전달되는 viewModel() 함수를 호출
+            val marsViewModel: MarsViewModel = viewModel(factory = MarsViewModel.Factory)
             HomeScreen(
                 marsUiState = marsViewModel.marsUiState,
                 contentPadding = it,

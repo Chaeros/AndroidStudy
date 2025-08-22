@@ -23,8 +23,9 @@ interface MarsApiService {
 // Kotlin에서 object 선언은 클래스와 달리 애플리케이션에서 단 한 번만 인스턴스 생성 보장(전역 접근 보장)
 // by lazy 키워드를 통해 처음 사용될 떄만 초기화
 // 앱 전역에서 동일한 Retrofit 서비스 인스턴스를 쓰기 위한 싱글톤 객체
-object MarsApi {
-    val retrofitService : MarsApiService by lazy {
-        retrofit.create(MarsApiService::class.java)
-    }
-}
+//object MarsApi {
+//    val retrofitService : MarsApiService by lazy {
+//        retrofit.create(MarsApiService::class.java)
+//    }
+//}
+// MarsPhotoRepository DI 적용을 통한 종속성 완화
