@@ -11,12 +11,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.chaeros.mars.MarsPhotoApplication
 import com.chaeros.mars.data.MarsPhotoRepository
+import com.chaeros.mars.network.MarsPhoto
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 // sealed 키워드를 통해 MarsUiState interface를 내부에서만 implements 또는 extends 할 수 잇음
 sealed interface MarsUiState {
-    data class Success(val photos: String) : MarsUiState
+    data class Success(val photos: MarsPhoto) : MarsUiState
     object Error : MarsUiState
     object Loading : MarsUiState
 }
@@ -37,13 +38,11 @@ class MarsViewModel(
     private fun getMarsPhotos() {
         // launch 메서드를 통해 코루틴 실행
         viewModelScope.launch {
-            try {
-                val listResult = marsPhotoRepository.getMarsPhotos()
-                marsUiState = MarsUiState.Success(
-                    "Success: ${listResult.size} Mars Photos retrieved"
-                )  // Compose 상태 갱신, 화면의 Text 등이 자동 업데이트
+            marsUiState =try {
+                val result = marsPhotoRepository.getMarsPhotos()[0]
+                MarsUiState.Success(marsPhotoRepository.getMarsPhotos()[0])
             } catch (e:IOException) {
-                marsUiState = MarsUiState.Error
+                MarsUiState.Error // 반환 타입을 try와 catch문 동일하게 일치시켜줘야 에러가 발생하지 않음
             }
         }
     }

@@ -67,4 +67,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    // 이미지 다운로드/버퍼링/디코딩/캐싱
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
