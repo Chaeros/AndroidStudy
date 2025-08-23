@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chaeros.mars.R
 import com.chaeros.mars.ui.screens.MarsPhotoCard
+import com.chaeros.mars.ui.screens.PhotosGridScreen
 import com.chaeros.mars.ui.theme.MarsTheme
 
 @Composable
@@ -46,8 +47,8 @@ fun HomeScreen(
 ) {
     when (marsUiState) {
         is MarsUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is MarsUiState.Success -> MarsPhotoCard(
-            photo = marsUiState.photos,
+        is MarsUiState.Success -> PhotosGridScreen(
+            photos = marsUiState.photos,
             modifier = modifier.fillMaxSize()
         )
         else -> ErrorScreen(modifier = modifier.fillMaxSize())

@@ -17,7 +17,7 @@ import java.io.IOException
 
 // sealed 키워드를 통해 MarsUiState interface를 내부에서만 implements 또는 extends 할 수 잇음
 sealed interface MarsUiState {
-    data class Success(val photos: MarsPhoto) : MarsUiState
+    data class Success(val photos: List<MarsPhoto>) : MarsUiState
     object Error : MarsUiState
     object Loading : MarsUiState
 }
@@ -39,8 +39,7 @@ class MarsViewModel(
         // launch 메서드를 통해 코루틴 실행
         viewModelScope.launch {
             marsUiState =try {
-                val result = marsPhotoRepository.getMarsPhotos()[0]
-                MarsUiState.Success(marsPhotoRepository.getMarsPhotos()[0])
+                MarsUiState.Success(marsPhotoRepository.getMarsPhotos())
             } catch (e:IOException) {
                 MarsUiState.Error // 반환 타입을 try와 catch문 동일하게 일치시켜줘야 에러가 발생하지 않음
             }
