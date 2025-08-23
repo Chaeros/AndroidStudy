@@ -2,14 +2,16 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // kotlinx serialization 플러그인을 추가
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.1.10"
 }
 
 android {
-    namespace = "com.chaeros.cupcake"
+    namespace = "com.chaeros.mars"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.chaeros.cupcake"
+        applicationId = "com.chaeros.mars"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -49,6 +51,13 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    // kotlinx-serialization-converter를 사용하도록 변경
+    // Kotlin 프로젝트에 JSON 직렬화를 제공
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -56,14 +65,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")  // ViewModel 사용을 위한 dependency 추가
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")  // compose 환경에서 viewModel 사용 위해서 필요
-    implementation("androidx.navigation:navigation-compose:2.7.4")
-
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.05.01"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    androidTestImplementation("androidx.navigation:navigation-testing:2.6.0")
-    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    // 이미지 다운로드/버퍼링/디코딩/캐싱
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }
