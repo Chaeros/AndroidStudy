@@ -35,7 +35,7 @@ class MarsViewModel(
     }
 
     // 네트워크 같은 I/O는 반드시 비동기로 작성하여 메인 스레드 차단 금지
-    private fun getMarsPhotos() {
+    public fun getMarsPhotos() {
         // launch 메서드를 통해 코루틴 실행
         viewModelScope.launch {
             marsUiState =try {
