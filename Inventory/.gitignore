@@ -1,0 +1,76 @@
+# --------------------------------------
+# Android Studio & Gradle Ignore List
+# --------------------------------------
+
+# Gradle build output
+.gradle/
+build/
+**/build/
+
+# Local configuration
+local.properties
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# IntelliJ IDEA code styles except codeStyles folder
+.idea/codeStyles/Project.xml
+.idea/codeStyles/Workspace.xml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Editor-specific files
+*.swp
+*.tmp
+*.bak
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+*.log
+
+# Compiled Java/Kotlin classes
+*.class
+
+# NDK/External native builds
+.externalNativeBuild/
+.cxx/
+
+# Captures folder (used in Android Studio)
+captures/
+
+# Gradle Wrapper - INCLUDE JAR (important for reproducible builds)
+# Do NOT ignore the JAR file!
+# gradle/wrapper/gradle-wrapper.jar ← DO NOT IGNORE THIS FILE
+
+# APK/Signing files
+*.apk
+*.ap_
+*.keystore
+*.jks
+
+# Windows-specific
+*.bat~      # temp backups
+*.cmd~
+
+# Mac-specific
+Icon?
+._*
+
+# Jetpack Compose preview cache
+*.pb
+.idea/assetWizardSettings.xml
+
+# VS Code support (if used)
+.vscode/
+
+# Kotlin Script cache
+.kts.cache/
+
+# Firebase crashlytics / performance traces (local reports)
+crashlytics-build.log
+perf-build.log
