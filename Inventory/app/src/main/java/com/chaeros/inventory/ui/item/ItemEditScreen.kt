@@ -2,6 +2,7 @@ package com.chaeros.inventory.ui.item
 
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -54,7 +55,7 @@ fun ItemEditScreen(
                     end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
                     top = innerPadding.calculateTopPadding()
                 )
-                .verticalScroll(rememberScrollState())
+                .fillMaxWidth() // 부모와 자식에 모두 verticalScroll(rememberScrollState())를 사용하면 무한 높이 제약 발생, 자식에 적용하는게 바람직
         )
     }
 }

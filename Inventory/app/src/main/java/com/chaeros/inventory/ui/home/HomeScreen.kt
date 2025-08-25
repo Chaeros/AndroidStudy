@@ -90,25 +90,24 @@ private fun HomeBody(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
-    ) {
-        if (itemList.isEmpty()) {
-            Text(
-                text = stringResource(R.string.no_item_description),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(contentPadding),
-            )
-        } else {
-            InventoryList(
-                itemList = itemList,
-                onItemClick = { onItemClick(it.id) },
-                contentPadding = contentPadding,
-                modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
-            )
-        }
+    if (itemList.isEmpty()) {
+        Text(
+            text = stringResource(R.string.no_item_description),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier
+                .fillMaxSize()  // 부모가 LazyColumn으로, 만약 크기를 지정해주지 않으면 무한대 높이가 되어 Infinite height constrains 예외 발생
+                .padding(contentPadding),
+        )
+    } else {
+        InventoryList(
+            itemList = itemList,
+            onItemClick = { onItemClick(it.id) },
+            contentPadding = contentPadding,
+            modifier = Modifier
+                .fillMaxSize() // 부모가 LazyColumn으로, 만약 크기를 지정해주지 않으면 무한대 높이가 되어 Infinite height constrains 예외 발생
+                .padding(horizontal = dimensionResource(id = R.dimen.padding_small))
+        )
     }
 }
 

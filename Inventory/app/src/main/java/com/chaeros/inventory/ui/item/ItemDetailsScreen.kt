@@ -87,7 +87,7 @@ fun ItemDetailsScreen(
                     end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
                     top = innerPadding.calculateTopPadding()
                 )
-                .verticalScroll(rememberScrollState())
+                .fillMaxWidth()
         )
     }
 }

@@ -12,6 +12,7 @@ import com.chaeros.inventory.ui.item.ItemDetailsViewModel
 import com.chaeros.inventory.ui.item.ItemEditViewModel
 import com.chaeros.inventory.ui.item.ItemEntryViewModel
 
+// viewModel 생성해주는 Factory
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
@@ -21,7 +22,7 @@ object AppViewModelProvider {
         }
 
         initializer {
-            ItemEntryViewModel()
+            ItemEntryViewModel(inventoryApplication().container.itemsRepository)
         }
 
         initializer {
