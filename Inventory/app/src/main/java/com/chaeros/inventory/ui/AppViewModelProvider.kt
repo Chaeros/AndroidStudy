@@ -32,7 +32,7 @@ object AppViewModelProvider {
         }
 
         initializer {
-            HomeViewModel()
+            HomeViewModel(inventoryApplication().container.itemsRepository)
         }
     }
 }
