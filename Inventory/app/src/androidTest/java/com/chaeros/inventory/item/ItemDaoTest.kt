@@ -15,6 +15,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 
+// 1. src/test/java 하위는 JVM 위에서만 돌아가는 로컬 유닛 테스트(Java, Kotlin)
+// - 안드로이드 프레임워크 접근 불가
+// - class에 어노테이션 붙힐 필요없이 test 메서드에 @Test 붙혀서 테스트
+// 2. src/androidTest/java 하위는 애뮬레이터 및 실기기에서 돌아가는 계측
+// - 안드로이드 프레임워크 전체에 접근 가능
+// 그 중 @RunWith(AndroidJUnit4::class)는 안드로이드 os 위에서 돌아가는 계측 API로 androidTest 하위에 있어야함
 @RunWith(AndroidJUnit4::class)
 class ItemDaoTest {
     private lateinit var itemDao: ItemDao
@@ -57,6 +63,7 @@ class ItemDaoTest {
         inventoryDatabase = Room.inMemoryDatabaseBuilder(context, InventoryDatabase::class.java)
             .allowMainThreadQueries()
             .build()
+        itemDao = inventoryDatabase.itemDao()
     }
 
     // 모든 테스트 이후 실행
