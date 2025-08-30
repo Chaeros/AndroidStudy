@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -44,6 +45,7 @@ import com.chaeros.inventory.data.Item
 import com.chaeros.inventory.ui.AppViewModelProvider
 import com.chaeros.inventory.ui.navigation.NavigationDestination
 import com.chaeros.inventory.ui.theme.InventoryTheme
+import kotlinx.coroutines.launch
 
 object ItemDetailsDestination : NavigationDestination {
     override val route = "item_details"
@@ -63,6 +65,7 @@ fun ItemDetailsScreen(
     // collectAsState()를 사용하여 uiState StateFlow를 수집
     // State를 통해 최신 값 나타냄
     val uiState = viewModel.uiState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()   // rememberCoroutineScope 사용시 해당 Composable 사라질 때 같이 정리됨
 
     Scaffold(
         topBar = {
@@ -87,8 +90,13 @@ fun ItemDetailsScreen(
     ) { innerPadding ->
         ItemDetailsBody(
             itemDetailsUiState = uiState.value,
-            onSellItem = { },
-            onDelete = { },
+            onSellItem = { viewModel.reduceQuantityByOne() },
+            onDelete = {
+                coroutineScope.launch{
+                    viewModel.deleteItem()
+                    navigateBack()
+                }
+            },
             modifier = Modifier
                 .padding(
                     start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),

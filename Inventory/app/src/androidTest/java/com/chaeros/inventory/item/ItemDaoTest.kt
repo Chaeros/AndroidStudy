@@ -14,6 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
+import org.junit.Assert.assertTrue
 
 // 1. src/test/java 하위는 JVM 위에서만 돌아가는 로컬 유닛 테스트(Java, Kotlin)
 // - 안드로이드 프레임워크 접근 불가
@@ -53,6 +54,30 @@ class ItemDaoTest {
         val allItems = itemDao.getAllItems().first()
         assertEquals(allItems[0], item1)
         assertEquals(allItems[1], item2)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun daoUpdateItems_updateItemsInDB() = runBlocking {
+        addTwoItemsToDb()
+        itemDao.update(Item(1,"Apples",15.0,25))
+        itemDao.update(Item(2,"Bananas",5.0,50))
+
+        val allItems = itemDao.getAllItems().first()
+        assertEquals(allItems[0], Item(1,"Apples",15.0,25))
+        assertEquals(allItems[1], Item(2,"Bananas",5.0,50))
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun daoDeleteItems_deleteItemsInDB() = runBlocking {
+        addTwoItemsToDb()
+        itemDao.delete(item1)
+        val allItems = itemDao.getAllItems().first()
+        assertEquals(allItems[0],item2)
+        itemDao.delete(item2)
+        val allItems2 = itemDao.getAllItems().first()
+        assertTrue(allItems2.isEmpty())
     }
 
     // 모든 테스트 전에 실행
