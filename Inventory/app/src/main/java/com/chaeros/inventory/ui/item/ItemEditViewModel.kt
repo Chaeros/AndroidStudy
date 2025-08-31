@@ -5,9 +5,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.chaeros.inventory.data.ItemsRepository
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class ItemEditViewModel(
     savedStateHandle: SavedStateHandle,
+    private val itemsRepository : ItemsRepository
 ) : ViewModel() {
 
     // by mutableStateOf() 사용시, getValue, setValue 가 반드시 import 되어야 함
@@ -19,6 +25,26 @@ class ItemEditViewModel(
     private fun validateInput(uiState: ItemDetails = itemUiState.itemDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() && price.isNotBlank() && quantity.isNotBlank()
+        }
+    }
+
+    fun updateUiState(itemDetails: ItemDetails) {
+        itemUiState =
+            ItemUiState(itemDetails = itemDetails, isEntryValid = validateInput(itemDetails))
+    }
+
+    suspend fun updateItem() {
+        if(validateInput(itemUiState.itemDetails)){
+            itemsRepository.updateItem(itemUiState.itemDetails.toItem())
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            itemUiState = itemsRepository   .getItemStream(itemId)
+                .filterNotNull()
+                .first()
+                .toItemUiState(true)
         }
     }
 }

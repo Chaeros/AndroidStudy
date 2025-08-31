@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    // Import the Compose BOM
+    // ---------- Compose ----------
     implementation(platform("androidx.compose:compose-bom:2024.12.01"))
     implementation("androidx.activity:activity-compose:1.9.3")
     implementation("androidx.compose.material3:material3")
@@ -54,15 +54,24 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 
-    // navigation
+    // ---------- Navigation ----------
     implementation("androidx.navigation:navigation-compose:2.8.5")
 
-    // Testing
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-
-    // Room 종속 항목 추가
+    // ---------- Room ----------
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
+    implementation(libs.androidx.junit.ktx)
     ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
+
+    // ---------- Unit Test ----------
+    testImplementation("junit:junit:4.13.2")
+
+    // ---------- Instrumented Test ----------
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("androidx.test:runner:1.6.2")
+    androidTestImplementation("androidx.test:rules:1.6.1")
+
+    // (선택) Room 테스트 헬퍼 - inMemoryDatabaseBuilder 같은 걸 테스트할 때 필요
+    androidTestImplementation("androidx.room:room-testing:${rootProject.extra["room_version"]}")
 }
