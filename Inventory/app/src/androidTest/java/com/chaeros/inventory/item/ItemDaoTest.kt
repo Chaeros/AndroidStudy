@@ -80,6 +80,14 @@ class ItemDaoTest {
         assertTrue(allItems2.isEmpty())
     }
 
+    @Test
+    @Throws(Exception::class)
+    fun daoEditItems_editItemsInDB() = runBlocking {
+        addOneItemToDb()
+        val item = itemDao.getItem(1)
+        assertEquals(item1,item.first())
+    }
+
     // 모든 테스트 전에 실행
     @Before
     fun createDB() {

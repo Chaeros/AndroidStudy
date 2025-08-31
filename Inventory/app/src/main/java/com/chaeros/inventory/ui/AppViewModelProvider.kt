@@ -20,7 +20,8 @@ object AppViewModelProvider {
                 // SavedStateHandle이란 안드로이드 Jetpack에서 제공하는 상태 저장 도우미 객체
                 // ViewModel 안에서 UI 상태나 매개변수를 저장하고 복원할 수 있게 해줌
                 // ex) 프로세스가 죽었다가 다시 살아날 때, 화면 회전 같은 구성 변경 등
-                this.createSavedStateHandle()
+                this.createSavedStateHandle(),
+                inventoryApplication().container.itemsRepository
             )
         }
 
