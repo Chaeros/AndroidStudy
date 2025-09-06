@@ -2,7 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- android:name 설정을 통해 App의 진입점을 MainActivity가 아닌,
+    DessertReleaseApplication Class로 변경할 수 있음 -->
+    <!-- App 진입점 변경을 하는 이유 :
+        1. DI 초기화
+        2. 전역적으로 필요한 객체 준비
+        3. 로그 설정
+        4. 다크 모드, 언어 등의 앱 공통 설정
+    -->
     <application
+        android:name=".DessertReleaseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
