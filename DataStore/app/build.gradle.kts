@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.chaeros.datastore"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.chaeros.datastore"
@@ -57,5 +57,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // dataStore 추가
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    // viewModel 추가
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
 }
